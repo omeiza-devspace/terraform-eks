@@ -1,5 +1,5 @@
 resource "aws_iam_role" "workers" {
-  name = "${var.env}- ${var.eks_name}-eks-workers"
+  name = "${var.env}-${var.eks_name}-eks-workers"
 
   assume_role_policy = jsonencode({
     Statement = [{

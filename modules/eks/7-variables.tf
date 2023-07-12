@@ -19,7 +19,6 @@ variable "eks_name" {
 variable "subnet_ids" {
   type        = list(string)
   description = "list of subnet IDs in atleast two different AZs"
-  default     = "dev"
 }
 
 variable "node_iam_policies" {

@@ -1,5 +1,5 @@
 resource "aws_iam_role" "master" {
-  name = "${var.env}- ${var.eks_name}-eks-cluster"
+  name = "${var.env}-${var.eks_name}-eks-cluster"
 
   assume_role_policy = <<POLICY
 {
@@ -24,7 +24,7 @@ resource "aws_iam_role_policy_attachment" "eks" {
 
 resource "aws_eks_cluster" "this" {
   name     = "${var.env}-${var.eks_name}"
-  version  = var.eks-version
+  version  = var.eks_version
   role_arn = aws_iam_role.master.arn
 
   vpc_config {
@@ -34,6 +34,6 @@ resource "aws_eks_cluster" "this" {
     subnet_ids = var.subnet_ids
   }
 
-  depends_on = [aws_ian_role_policy_attachment.eks]
+  depends_on = [aws_iam_role_policy_attachment.eks]
 
 }

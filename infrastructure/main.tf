@@ -5,7 +5,8 @@ locals {
 module "network" {
   source          = "../modules/network"
   env             = local.env
-  azs             = []
+  vpc_cidr_block  = "10.0.0.0/16"
+  azs             = ["eu-west-1a", "eu-west-1b"]
   public_subnets  = ["10.0.1.0/24", "10.0.2.0/24"]
   private_subnets = ["10.0.5.0/24", "10.0.6.0/24"]
 
@@ -24,8 +25,8 @@ module "network" {
 module "sec_groups" {
   source = "../modules/sec_groups"
 
-  env = local.env
-  vpc_id   = module.network.vpc_id
+  env    = local.env
+  vpc_id = module.network.vpc_id
 }
 
 module "eks" {
@@ -49,7 +50,7 @@ module "eks" {
   }
   ssh_key_pair = "~/.ssh/terraform_ssh_key.pub"
   sec_group_id = module.sec_groups.worker_nodes_sg_id
-  depends_on = [module.network]
+  depends_on   = [module.network]
 }
 
 

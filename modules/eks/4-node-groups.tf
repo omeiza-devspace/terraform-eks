@@ -21,12 +21,12 @@ resource "aws_eks_node_group" "this" {
   }
 
   update_config {
-    max_unavailavble = 1
+    max_unavailable = 1
   }
 
   labels = {
     role = each.key
   }
 
-  depnds_on = [aws_iam_role_policy_attachment.workers]
+  depends_on = [aws_iam_role_policy_attachment.workers]
 }

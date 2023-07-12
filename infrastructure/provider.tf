@@ -2,7 +2,7 @@
 terraform {
   required_providers {
     aws = {
-      source = "hashicorp/aws"
+      source  = "hashicorp/aws"
       version = "~> 3.0"
     }
   }
@@ -10,8 +10,8 @@ terraform {
 
 #configure aws provider
 provider "aws" {
-  region                   = "eu-west-1"
-  profile                  = "default"
+  region                  = "eu-west-1"
+  profile                 = "default"
   shared_credentials_file = "~/.aws/credentials"
 }
 
@@ -19,14 +19,14 @@ provider "aws" {
 terraform {
   # store the terraform state file in client PC
   backend "local" {
-    path = "dev/vpc/terraform.tstate"
+    path = "backend/dev/terraform.tstate"
   }
-  
-#############################################################
-## AFTER RUNNING TERRAFORM APPLY (WITH LOCAL BACKEND)
-## YOU WILL UNCOMMENT THIS CODE THEN RERUN TERRAFORM INIT
-## TO SWITCH FROM LOCAL BACKEND TO REMOTE AWS BACKEND
-#############################################################
+
+  #############################################################
+  ## AFTER RUNNING TERRAFORM APPLY (WITH LOCAL BACKEND)
+  ## YOU WILL UNCOMMENT THIS CODE THEN RERUN TERRAFORM INIT
+  ## TO SWITCH FROM LOCAL BACKEND TO REMOTE AWS BACKEND
+  #############################################################
 
   # store the terraform state file in s3
   #   backend "s3" { 

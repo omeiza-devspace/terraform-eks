@@ -1,4 +1,4 @@
-resource "aws_security_group" "worker_nodes" {
+resource "aws_security_group" "worker_node" {
   name        = "${var.env}-sg"
   description = "Allow ssh inbound traffic"
   vpc_id      = var.vpc_id
