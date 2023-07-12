@@ -1,7 +1,10 @@
+locals {
+  env = "dev"
+}
 
-module "vpc" {
-  source          = "../modules/vpc"
-  env             = "dev"
+module "network" {
+  source          = "../modules/network"
+  env             = local.env
   azs             = []
   public_subnets  = ["10.0.1.0/24", "10.0.2.0/24"]
   private_subnets = ["10.0.5.0/24", "10.0.6.0/24"]
@@ -21,17 +24,17 @@ module "vpc" {
 module "sec_groups" {
   source = "../modules/sec_groups"
 
-  env = module.vpc.vpc_name
-  vpc_id   = module.vpc.vpc_id
+  env = local.env
+  vpc_id   = module.network.vpc_id
 }
 
 module "eks" {
   source = "../modules/eks"
 
-  env         = "dev"
+  env         = local.env
   eks_version = "1.26"
   eks_name    = "demo"
-  subnet_ids  = module.vpc.outputs.private_subnet_ids
+  subnet_ids  = module.network.private_subnet_ids
 
   node_groups = {
     general = {
@@ -46,7 +49,7 @@ module "eks" {
   }
   ssh_key_pair = "~/.ssh/terraform_ssh_key.pub"
   sec_group_id = module.sec_groups.worker_nodes_sg_id
-  depends_on = [module.vpc]
+  depends_on = [module.network]
 }
 
 
