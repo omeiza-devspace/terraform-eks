@@ -23,12 +23,12 @@ module "network" {
   azs            = local.available_azs
 
   public_subnets = [
-    for zone_id in local.available_azs:
+    for zone_id in local.available_azs :
     cidrsubnet(local.vpc_cidr_block, local.subnet_ext, local.zone_offset)
   ]
 
   private_subnets = [
-    for zone_id in local.available_azs:
+    for zone_id in local.available_azs :
     cidrsubnet(local.vpc_cidr_block, local.subnet_ext, local.zone_offset)
   ]
 
