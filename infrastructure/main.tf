@@ -55,9 +55,9 @@ module "eks" {
       capacity_type  = "ON_DEMAND"
       instance_types = ["t2.micro"]
       scaling_config = {
-        desired_size = 1
-        min_size     = 0
-        max_size     = 1
+        desired_size = 2
+        min_size     = 1
+        max_size     = 2
       }
     }
   }
@@ -76,7 +76,7 @@ resource "null_resource" "bashctl" {
 
   provisioner "local-exec" {
     # deploy nginx-app to eks-cluster
-    command     = "./scripts/install-nginx.sh"
+    command     = "chmod u+x ./scripts/* && ./scripts/install-nginx.sh"
     interpreter = ["/bin/bash", "-c"]
   }
 }

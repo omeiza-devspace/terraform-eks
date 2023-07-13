@@ -1,9 +1,13 @@
 {
   "version": 4,
   "terraform_version": "1.5.1",
-  "serial": 35,
+  "serial": 44,
   "lineage": "e070db70-bd85-3dd3-8271-a7e1fb9fa1bb",
   "outputs": {
+    "cluster_name": {
+      "value": "dev-eks-demo",
+      "type": "string"
+    },
     "private_subnet_ids": {
       "value": [
         "subnet-081fa2949cd5f1a8f",
@@ -106,6 +110,45 @@
       ]
     },
     {
+      "mode": "managed",
+      "type": "null_resource",
+      "name": "bashctl",
+      "provider": "provider[\"registry.terraform.io/hashicorp/null\"]",
+      "instances": [
+        {
+          "status": "tainted",
+          "schema_version": 0,
+          "attributes": {
+            "id": "6809175315591645190",
+            "triggers": null
+          },
+          "sensitive_attributes": [],
+          "dependencies": [
+            "module.eks.aws_eks_cluster.this",
+            "module.eks.aws_eks_node_group.this",
+            "module.eks.aws_iam_openid_connect_provider.this",
+            "module.eks.aws_iam_role.master",
+            "module.eks.aws_iam_role.workers",
+            "module.eks.aws_iam_role_policy_attachment.eks",
+            "module.eks.aws_iam_role_policy_attachment.workers",
+            "module.eks.aws_key_pair.this",
+            "module.eks.aws_security_group.remote_access",
+            "module.eks.data.tls_certificate.this",
+            "module.network.aws_eip.this",
+            "module.network.aws_internet_gateway.this",
+            "module.network.aws_nat_gateway.this",
+            "module.network.aws_route_table.private_route",
+            "module.network.aws_route_table.public_route",
+            "module.network.aws_route_table_association.private_subnets_az_assocociations",
+            "module.network.aws_route_table_association.public_subnets_az_associations",
+            "module.network.aws_subnet.private",
+            "module.network.aws_subnet.public",
+            "module.network.aws_vpc.this"
+          ]
+        }
+      ]
+    },
+    {
       "module": "module.eks",
       "mode": "data",
       "type": "tls_certificate",
@@ -196,7 +239,7 @@
               }
             ],
             "created_at": "2023-07-13 20:31:03.946 +0000 UTC",
-            "enabled_cluster_log_types": null,
+            "enabled_cluster_log_types": [],
             "encryption_config": [],
             "endpoint": "https://F2013928240B846B6A05426113CFECF7.gr7.eu-west-1.eks.amazonaws.com",
             "id": "dev-eks-demo",
@@ -219,7 +262,7 @@
             "platform_version": "eks.4",
             "role_arn": "arn:aws:iam::189011478638:role/dev-eks-demo-eks-cluster",
             "status": "ACTIVE",
-            "tags": null,
+            "tags": {},
             "tags_all": {},
             "timeouts": null,
             "version": "1.26",
@@ -231,7 +274,7 @@
                 "public_access_cidrs": [
                   "0.0.0.0/0"
                 ],
-                "security_group_ids": null,
+                "security_group_ids": [],
                 "subnet_ids": [
                   "subnet-01c180ddeb7af535d",
                   "subnet-081fa2949cd5f1a8f"
@@ -265,7 +308,94 @@
       "type": "aws_eks_node_group",
       "name": "this",
       "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": []
+      "instances": [
+        {
+          "index_key": "general",
+          "schema_version": 0,
+          "attributes": {
+            "ami_type": "AL2_x86_64",
+            "arn": "arn:aws:eks:eu-west-1:189011478638:nodegroup/dev-eks-demo/general/a4c4a889-b27e-b373-fcbf-fcb42a16b30b",
+            "capacity_type": "ON_DEMAND",
+            "cluster_name": "dev-eks-demo",
+            "disk_size": 20,
+            "force_update_version": null,
+            "id": "dev-eks-demo:general",
+            "instance_types": [
+              "t2.micro"
+            ],
+            "labels": {
+              "role": "general"
+            },
+            "launch_template": [],
+            "node_group_name": "general",
+            "node_group_name_prefix": "",
+            "node_role_arn": "arn:aws:iam::189011478638:role/dev-eks-demo-eks-workers",
+            "release_version": "1.26.4-20230703",
+            "remote_access": [
+              {
+                "ec2_ssh_key": "dev-key-pair",
+                "source_security_group_ids": [
+                  "sg-096f31d2b393114c9"
+                ]
+              }
+            ],
+            "resources": [
+              {
+                "autoscaling_groups": [
+                  {
+                    "name": "eks-general-a4c4a889-b27e-b373-fcbf-fcb42a16b30b"
+                  }
+                ],
+                "remote_access_security_group_id": "sg-031212139d0a24863"
+              }
+            ],
+            "scaling_config": [
+              {
+                "desired_size": 1,
+                "max_size": 1,
+                "min_size": 0
+              }
+            ],
+            "status": "ACTIVE",
+            "subnet_ids": [
+              "subnet-01c180ddeb7af535d",
+              "subnet-081fa2949cd5f1a8f"
+            ],
+            "tags": {},
+            "tags_all": {},
+            "taint": [],
+            "timeouts": null,
+            "update_config": [
+              {
+                "max_unavailable": 1,
+                "max_unavailable_percentage": 0
+              }
+            ],
+            "version": "1.26"
+          },
+          "sensitive_attributes": [],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozNjAwMDAwMDAwMDAwLCJkZWxldGUiOjM2MDAwMDAwMDAwMDAsInVwZGF0ZSI6MzYwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "module.eks.aws_eks_cluster.this",
+            "module.eks.aws_iam_role.master",
+            "module.eks.aws_iam_role.workers",
+            "module.eks.aws_iam_role_policy_attachment.eks",
+            "module.eks.aws_iam_role_policy_attachment.workers",
+            "module.eks.aws_key_pair.this",
+            "module.eks.aws_security_group.remote_access",
+            "module.network.aws_eip.this",
+            "module.network.aws_internet_gateway.this",
+            "module.network.aws_nat_gateway.this",
+            "module.network.aws_route_table.private_route",
+            "module.network.aws_route_table.public_route",
+            "module.network.aws_route_table_association.private_subnets_az_assocociations",
+            "module.network.aws_route_table_association.public_subnets_az_associations",
+            "module.network.aws_subnet.private",
+            "module.network.aws_subnet.public",
+            "module.network.aws_vpc.this"
+          ]
+        }
+      ]
     },
     {
       "module": "module.eks",
@@ -283,7 +413,7 @@
               "sts.amazon.com"
             ],
             "id": "arn:aws:iam::189011478638:oidc-provider/oidc.eks.eu-west-1.amazonaws.com/id/F2013928240B846B6A05426113CFECF7",
-            "tags": null,
+            "tags": {},
             "tags_all": {},
             "thumbprint_list": [
               "9e99a48a9960b14926bb7f3b02e22da2b0ab7280"
@@ -333,15 +463,71 @@
                 "policy": ""
               }
             ],
-            "managed_policy_arns": [],
+            "managed_policy_arns": [
+              "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+            ],
             "max_session_duration": 3600,
             "name": "dev-eks-demo-eks-cluster",
             "name_prefix": "",
             "path": "/",
             "permissions_boundary": null,
-            "tags": null,
+            "tags": {},
             "tags_all": {},
             "unique_id": "AROASYAPWJBXHRUQTIDDA"
+          },
+          "sensitive_attributes": [],
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.network.aws_eip.this",
+            "module.network.aws_internet_gateway.this",
+            "module.network.aws_nat_gateway.this",
+            "module.network.aws_route_table.private_route",
+            "module.network.aws_route_table.public_route",
+            "module.network.aws_route_table_association.private_subnets_az_assocociations",
+            "module.network.aws_route_table_association.public_subnets_az_associations",
+            "module.network.aws_subnet.private",
+            "module.network.aws_subnet.public",
+            "module.network.aws_vpc.this"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.eks",
+      "mode": "managed",
+      "type": "aws_iam_role",
+      "name": "workers",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:iam::189011478638:role/dev-eks-demo-eks-workers",
+            "assume_role_policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"ec2.amazonaws.com\"},\"Action\":\"sts:AssumeRole\"}]}",
+            "create_date": "2023-07-13T21:06:05Z",
+            "description": "",
+            "force_detach_policies": false,
+            "id": "dev-eks-demo-eks-workers",
+            "inline_policy": [
+              {
+                "name": "",
+                "policy": ""
+              }
+            ],
+            "managed_policy_arns": [
+              "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
+              "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
+              "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
+              "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+            ],
+            "max_session_duration": 3600,
+            "name": "dev-eks-demo-eks-workers",
+            "name_prefix": "",
+            "path": "/",
+            "permissions_boundary": null,
+            "tags": {},
+            "tags_all": {},
+            "unique_id": "AROASYAPWJBXBYCDGMHHW"
           },
           "sensitive_attributes": [],
           "private": "bnVsbA==",
@@ -398,7 +584,104 @@
       "type": "aws_iam_role_policy_attachment",
       "name": "workers",
       "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": []
+      "instances": [
+        {
+          "index_key": "1",
+          "schema_version": 0,
+          "attributes": {
+            "id": "dev-eks-demo-eks-workers-20230713210610679300000003",
+            "policy_arn": "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
+            "role": "dev-eks-demo-eks-workers"
+          },
+          "sensitive_attributes": [],
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.eks.aws_iam_role.workers",
+            "module.network.aws_eip.this",
+            "module.network.aws_internet_gateway.this",
+            "module.network.aws_nat_gateway.this",
+            "module.network.aws_route_table.private_route",
+            "module.network.aws_route_table.public_route",
+            "module.network.aws_route_table_association.private_subnets_az_assocociations",
+            "module.network.aws_route_table_association.public_subnets_az_associations",
+            "module.network.aws_subnet.private",
+            "module.network.aws_subnet.public",
+            "module.network.aws_vpc.this"
+          ]
+        },
+        {
+          "index_key": "2",
+          "schema_version": 0,
+          "attributes": {
+            "id": "dev-eks-demo-eks-workers-20230713210610669200000002",
+            "policy_arn": "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
+            "role": "dev-eks-demo-eks-workers"
+          },
+          "sensitive_attributes": [],
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.eks.aws_iam_role.workers",
+            "module.network.aws_eip.this",
+            "module.network.aws_internet_gateway.this",
+            "module.network.aws_nat_gateway.this",
+            "module.network.aws_route_table.private_route",
+            "module.network.aws_route_table.public_route",
+            "module.network.aws_route_table_association.private_subnets_az_assocociations",
+            "module.network.aws_route_table_association.public_subnets_az_associations",
+            "module.network.aws_subnet.private",
+            "module.network.aws_subnet.public",
+            "module.network.aws_vpc.this"
+          ]
+        },
+        {
+          "index_key": "3",
+          "schema_version": 0,
+          "attributes": {
+            "id": "dev-eks-demo-eks-workers-20230713210610749900000004",
+            "policy_arn": "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
+            "role": "dev-eks-demo-eks-workers"
+          },
+          "sensitive_attributes": [],
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.eks.aws_iam_role.workers",
+            "module.network.aws_eip.this",
+            "module.network.aws_internet_gateway.this",
+            "module.network.aws_nat_gateway.this",
+            "module.network.aws_route_table.private_route",
+            "module.network.aws_route_table.public_route",
+            "module.network.aws_route_table_association.private_subnets_az_assocociations",
+            "module.network.aws_route_table_association.public_subnets_az_associations",
+            "module.network.aws_subnet.private",
+            "module.network.aws_subnet.public",
+            "module.network.aws_vpc.this"
+          ]
+        },
+        {
+          "index_key": "4",
+          "schema_version": 0,
+          "attributes": {
+            "id": "dev-eks-demo-eks-workers-20230713210610664800000001",
+            "policy_arn": "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore",
+            "role": "dev-eks-demo-eks-workers"
+          },
+          "sensitive_attributes": [],
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.eks.aws_iam_role.workers",
+            "module.network.aws_eip.this",
+            "module.network.aws_internet_gateway.this",
+            "module.network.aws_nat_gateway.this",
+            "module.network.aws_route_table.private_route",
+            "module.network.aws_route_table.public_route",
+            "module.network.aws_route_table_association.private_subnets_az_assocociations",
+            "module.network.aws_route_table_association.public_subnets_az_associations",
+            "module.network.aws_subnet.private",
+            "module.network.aws_subnet.public",
+            "module.network.aws_vpc.this"
+          ]
+        }
+      ]
     },
     {
       "module": "module.eks",
@@ -417,7 +700,7 @@
             "key_name_prefix": "",
             "key_pair_id": "key-0fafdb78700b74c43",
             "public_key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDjaKM8WNPx0mAjYLCjnpkbnrt0oQYROxAg1/3AfU/D2 omeiza@omeiza-pc",
-            "tags": null,
+            "tags": {},
             "tags_all": {}
           },
           "sensitive_attributes": [],
@@ -484,7 +767,7 @@
             "name_prefix": "",
             "owner_id": "189011478638",
             "revoke_rules_on_delete": false,
-            "tags": null,
+            "tags": {},
             "tags_all": {},
             "timeouts": null,
             "vpc_id": "vpc-0fdc0f75a9afc7d7a"
