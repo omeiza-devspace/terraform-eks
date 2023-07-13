@@ -2,24 +2,15 @@
 terraform {
   required_providers {
     aws = {
-      source  = "hashicorp/aws"
-      version = "~> 3.0"
+      source = "hashicorp/aws"
     }
   }
 }
 
-#configure aws provider
-provider "aws" {
-  region                  = "eu-west-1"
-  profile                 = "default"
-  shared_credentials_file = "~/.aws/credentials"
-}
-
-
 terraform {
   # store the terraform state file in client PC
   backend "local" {
-    path = "backend/dev/terraform.tstate"
+    path = "./dev/terraform.tstate"
   }
 
   #############################################################

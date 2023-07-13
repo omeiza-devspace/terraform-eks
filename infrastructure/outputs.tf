@@ -13,3 +13,6 @@ output "public_subnet_ids" {
 output "cluster_name" {
   value = module.eks.eks_name
 }
+
+
+
