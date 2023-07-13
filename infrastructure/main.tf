@@ -46,7 +46,7 @@ module "eks" {
 
   env         = local.env
   eks_version = "1.26"
-  eks_name    = "${local.cluster_name}"
+  eks_name    = local.cluster_name
   subnet_ids  = module.network.private_subnet_ids
   vpc_id      = module.network.vpc_id
 
@@ -65,21 +65,21 @@ module "eks" {
   depends_on   = [module.network]
 }
 
-# resource "null_resource" "bashctl" {
-#   depends_on = [module.eks]
+resource "null_resource" "bashctl" {
+  depends_on = [module.eks]
 
-#   provisioner "local-exec" {
-#     # connect to eks-cluster nodes
-#     command     = "aws eks update-kubeconfig --region ${local.region} --name ${module.eks.eks_name}"
-#     interpreter = ["/bin/bash", "-c"]
-#   }
+  provisioner "local-exec" {
+    # connect to eks-cluster nodes
+    command     = "aws eks update-kubeconfig --region ${local.region} --name ${module.eks.eks_name}"
+    interpreter = ["/bin/bash", "-c"]
+  }
 
-#   provisioner "local-exec" {
-#     # deploy nginx-app to eks-cluster
-#     command     = "./scripts/install-nginx.sh"
-#     interpreter = ["/bin/bash", "-c"]
-#   }
-# }
+  provisioner "local-exec" {
+    # deploy nginx-app to eks-cluster
+    command     = "./scripts/install-nginx.sh"
+    interpreter = ["/bin/bash", "-c"]
+  }
+}
 
 
 

@@ -16,7 +16,7 @@ then
    exit 1
 else
    echo  "nginx pods is ready for deployment"
-   kubectl deploy -f "../k8s/nginx.yml"
+   kubectl apply -f "./k8s/nginx-deployment.yml"
    kubectl get pods -n default -o wide
 fi
 

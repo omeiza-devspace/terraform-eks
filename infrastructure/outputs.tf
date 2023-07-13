@@ -10,9 +10,9 @@ output "public_subnet_ids" {
   value = module.network.public_subnet_ids
 }
 
-# output "cluster_name" {
-#   value = module.eks.eks_name
-# }
+output "cluster_name" {
+  value = module.eks.eks_name
+}
 
 
 
