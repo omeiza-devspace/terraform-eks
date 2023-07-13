@@ -1,12 +1,17 @@
 
 locals {
-  env            = "dev"
-  region         = "eu-west-1"
-  cluster_name   = "eks-demo"
-  available_azs  = ["${local.region}a", "${local.region}b"]
-  vpc_cidr_block = "10.0.0.0/16"
-  subnet_ext     = 4
-  zone_offset    = 8
+  env           = "dev"
+  region        = "eu-west-1"
+  cluster_name  = "eks-demo"
+  vpc_cidr      = "10.0.0.0/16"
+  available_azs = formatlist("${local.region}%s", ["a", "b"])
+  public_subnets = [
+    for i in range(length(local.available_azs)) : cidrsubnet(local.vpc_cidr, 8, i)
+  ]
+
+  private_subnets = [
+    for i in range(length(local.available_azs)) : cidrsubnet(local.vpc_cidr, 8, i + 10)
+  ]
 }
 
 #configure aws provider
@@ -17,20 +22,13 @@ provider "aws" {
 }
 
 module "network" {
-  source         = "../modules/network"
-  env            = local.env
-  vpc_cidr_block = local.vpc_cidr_block
-  azs            = local.available_azs
+  source   = "../modules/network"
+  env      = local.env
+  vpc_cidr = local.vpc_cidr
 
-  public_subnets = [
-    for zone_id in local.available_azs :
-    cidrsubnet(local.vpc_cidr_block, local.subnet_ext, local.zone_offset)
-  ]
-
-  private_subnets = [
-    for zone_id in local.available_azs :
-    cidrsubnet(local.vpc_cidr_block, local.subnet_ext, local.zone_offset)
-  ]
+  azs                  = local.available_azs
+  private_subnet_cidrs = local.private_subnets
+  public_subnet_cidrs  = local.public_subnets
 
   private_subnet_tags = {
     "kubernetes.io/role/internal-elb"             = 1
