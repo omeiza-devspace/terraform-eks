@@ -1,13 +1,13 @@
 {
   "version": 4,
   "terraform_version": "1.5.1",
-  "serial": 9,
+  "serial": 26,
   "lineage": "e070db70-bd85-3dd3-8271-a7e1fb9fa1bb",
   "outputs": {
     "private_subnet_ids": {
       "value": [
-        "subnet-0696b3f9a2b23a4e5",
-        "subnet-0de609e2a66fedd66"
+        "subnet-081fa2949cd5f1a8f",
+        "subnet-01c180ddeb7af535d"
       ],
       "type": [
         "tuple",
@@ -19,8 +19,8 @@
     },
     "public_subnet_ids": {
       "value": [
-        "subnet-06f7b09c497de52da",
-        "subnet-084f5bb5c5eef9caa"
+        "subnet-0479866683dd74c9f",
+        "subnet-073f034a3b248a52c"
       ],
       "type": [
         "tuple",
@@ -37,10 +37,9 @@
   },
   "resources": [
     {
-      "module": "module.network",
       "mode": "data",
       "type": "aws_availability_zones",
-      "name": "available_zones",
+      "name": "available_azs",
       "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
       "instances": [
         {
@@ -59,7 +58,7 @@
               "eu-west-1b",
               "eu-west-1c"
             ],
-            "state": null,
+            "state": "available",
             "zone_ids": [
               "euw1-az1",
               "euw1-az2",
@@ -71,7 +70,24 @@
       ]
     },
     {
-      "module": "module.network",
+      "mode": "data",
+      "type": "aws_caller_identity",
+      "name": "current",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "account_id": "189011478638",
+            "arn": "arn:aws:iam::189011478638:user/terraform",
+            "id": "189011478638",
+            "user_id": "AIDASYAPWJBXORVM6GXDZ"
+          },
+          "sensitive_attributes": []
+        }
+      ]
+    },
+    {
       "mode": "data",
       "type": "aws_region",
       "name": "current",
@@ -102,7 +118,7 @@
             "address": null,
             "allocation_id": "eipalloc-0df0afafba6281278",
             "associate_with_private_ip": null,
-            "association_id": "",
+            "association_id": "eipassoc-02f4634ff7cc1057e",
             "carrier_ip": "",
             "customer_owned_ip": "",
             "customer_owned_ipv4_pool": "",
@@ -110,9 +126,9 @@
             "id": "eipalloc-0df0afafba6281278",
             "instance": "",
             "network_border_group": "eu-west-1",
-            "network_interface": "",
-            "private_dns": null,
-            "private_ip": "",
+            "network_interface": "eni-055b2b67d60ac2cfd",
+            "private_dns": "ip-10-0-1-108.eu-west-1.compute.internal",
+            "private_ip": "10.0.1.108",
             "public_dns": "ec2-52-208-90-117.eu-west-1.compute.amazonaws.com",
             "public_ip": "52.208.90.117",
             "public_ipv4_pool": "amazon",
@@ -171,11 +187,11 @@
           "attributes": {
             "allocation_id": "eipalloc-0df0afafba6281278",
             "connectivity_type": "public",
-            "id": "nat-0823caea80ea3fb08",
-            "network_interface_id": "eni-055b2b67d60ac2cfd",
-            "private_ip": "10.0.1.108",
+            "id": "nat-0cf6552a8251f4bd3",
+            "network_interface_id": "eni-0799139a7104f1121",
+            "private_ip": "10.0.0.154",
             "public_ip": "52.208.90.117",
-            "subnet_id": "subnet-06f7b09c497de52da",
+            "subnet_id": "subnet-0479866683dd74c9f",
             "tags": {
               "Name": "dev-nat"
             },
@@ -198,33 +214,198 @@
       "module": "module.network",
       "mode": "managed",
       "type": "aws_route_table",
-      "name": "private",
+      "name": "private_route",
       "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": []
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:eu-west-1:189011478638:route-table/rtb-07d0a887e32ba1ddc",
+            "id": "rtb-07d0a887e32ba1ddc",
+            "owner_id": "189011478638",
+            "propagating_vgws": [],
+            "route": [
+              {
+                "carrier_gateway_id": "",
+                "cidr_block": "0.0.0.0/0",
+                "destination_prefix_list_id": "",
+                "egress_only_gateway_id": "",
+                "gateway_id": "",
+                "instance_id": "",
+                "ipv6_cidr_block": "",
+                "local_gateway_id": "",
+                "nat_gateway_id": "nat-0cf6552a8251f4bd3",
+                "network_interface_id": "",
+                "transit_gateway_id": "",
+                "vpc_endpoint_id": "",
+                "vpc_peering_connection_id": ""
+              }
+            ],
+            "tags": {
+              "Name": "dev-private-route"
+            },
+            "tags_all": {
+              "Name": "dev-private-route"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-0fdc0f75a9afc7d7a"
+          },
+          "sensitive_attributes": [],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDAsImRlbGV0ZSI6MzAwMDAwMDAwMDAwLCJ1cGRhdGUiOjEyMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "module.network.aws_eip.this",
+            "module.network.aws_internet_gateway.this",
+            "module.network.aws_nat_gateway.this",
+            "module.network.aws_subnet.public",
+            "module.network.aws_vpc.this"
+          ]
+        }
+      ]
     },
     {
       "module": "module.network",
       "mode": "managed",
       "type": "aws_route_table",
-      "name": "public",
+      "name": "public_route",
       "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": []
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:eu-west-1:189011478638:route-table/rtb-0b45d98a9972bc651",
+            "id": "rtb-0b45d98a9972bc651",
+            "owner_id": "189011478638",
+            "propagating_vgws": [],
+            "route": [
+              {
+                "carrier_gateway_id": "",
+                "cidr_block": "0.0.0.0/0",
+                "destination_prefix_list_id": "",
+                "egress_only_gateway_id": "",
+                "gateway_id": "igw-0cd57c63f8ccbf10d",
+                "instance_id": "",
+                "ipv6_cidr_block": "",
+                "local_gateway_id": "",
+                "nat_gateway_id": "",
+                "network_interface_id": "",
+                "transit_gateway_id": "",
+                "vpc_endpoint_id": "",
+                "vpc_peering_connection_id": ""
+              }
+            ],
+            "tags": {
+              "Name": "dev-public-route"
+            },
+            "tags_all": {
+              "Name": "dev-public-route"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-0fdc0f75a9afc7d7a"
+          },
+          "sensitive_attributes": [],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDAsImRlbGV0ZSI6MzAwMDAwMDAwMDAwLCJ1cGRhdGUiOjEyMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "module.network.aws_internet_gateway.this",
+            "module.network.aws_vpc.this"
+          ]
+        }
+      ]
     },
     {
       "module": "module.network",
       "mode": "managed",
       "type": "aws_route_table_association",
-      "name": "private_subnets_assoc_az1",
+      "name": "private_subnets_az_assocociations",
       "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": []
+      "instances": [
+        {
+          "index_key": 0,
+          "schema_version": 0,
+          "attributes": {
+            "gateway_id": "",
+            "id": "rtbassoc-0ff23f1c9f2384996",
+            "route_table_id": "rtb-07d0a887e32ba1ddc",
+            "subnet_id": "subnet-081fa2949cd5f1a8f"
+          },
+          "sensitive_attributes": [],
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.network.aws_eip.this",
+            "module.network.aws_internet_gateway.this",
+            "module.network.aws_nat_gateway.this",
+            "module.network.aws_route_table.private_route",
+            "module.network.aws_subnet.private",
+            "module.network.aws_subnet.public",
+            "module.network.aws_vpc.this"
+          ]
+        },
+        {
+          "index_key": 1,
+          "schema_version": 0,
+          "attributes": {
+            "gateway_id": "",
+            "id": "rtbassoc-0d81f229b4f763de9",
+            "route_table_id": "rtb-07d0a887e32ba1ddc",
+            "subnet_id": "subnet-01c180ddeb7af535d"
+          },
+          "sensitive_attributes": [],
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.network.aws_eip.this",
+            "module.network.aws_internet_gateway.this",
+            "module.network.aws_nat_gateway.this",
+            "module.network.aws_route_table.private_route",
+            "module.network.aws_subnet.private",
+            "module.network.aws_subnet.public",
+            "module.network.aws_vpc.this"
+          ]
+        }
+      ]
     },
     {
       "module": "module.network",
       "mode": "managed",
       "type": "aws_route_table_association",
-      "name": "public_subnets_assoc_az1",
+      "name": "public_subnets_az_associations",
       "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
-      "instances": []
+      "instances": [
+        {
+          "index_key": 0,
+          "schema_version": 0,
+          "attributes": {
+            "gateway_id": "",
+            "id": "rtbassoc-0966dd92578d1be92",
+            "route_table_id": "rtb-0b45d98a9972bc651",
+            "subnet_id": "subnet-0479866683dd74c9f"
+          },
+          "sensitive_attributes": [],
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.network.aws_internet_gateway.this",
+            "module.network.aws_route_table.public_route",
+            "module.network.aws_subnet.public",
+            "module.network.aws_vpc.this"
+          ]
+        },
+        {
+          "index_key": 1,
+          "schema_version": 0,
+          "attributes": {
+            "gateway_id": "",
+            "id": "rtbassoc-060610e05431588f5",
+            "route_table_id": "rtb-0b45d98a9972bc651",
+            "subnet_id": "subnet-073f034a3b248a52c"
+          },
+          "sensitive_attributes": [],
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.network.aws_internet_gateway.this",
+            "module.network.aws_route_table.public_route",
+            "module.network.aws_subnet.public",
+            "module.network.aws_vpc.this"
+          ]
+        }
+      ]
     },
     {
       "module": "module.network",
@@ -237,16 +418,16 @@
           "index_key": 0,
           "schema_version": 1,
           "attributes": {
-            "arn": "arn:aws:ec2:eu-west-1:189011478638:subnet/subnet-0696b3f9a2b23a4e5",
+            "arn": "arn:aws:ec2:eu-west-1:189011478638:subnet/subnet-081fa2949cd5f1a8f",
             "assign_ipv6_address_on_creation": false,
             "availability_zone": "eu-west-1a",
             "availability_zone_id": "euw1-az1",
-            "cidr_block": "10.0.5.0/24",
+            "cidr_block": "10.0.10.0/24",
             "customer_owned_ipv4_pool": "",
             "enable_dns64": false,
             "enable_resource_name_dns_a_record_on_launch": false,
             "enable_resource_name_dns_aaaa_record_on_launch": false,
-            "id": "subnet-0696b3f9a2b23a4e5",
+            "id": "subnet-081fa2949cd5f1a8f",
             "ipv6_cidr_block": "",
             "ipv6_cidr_block_association_id": "",
             "ipv6_native": false,
@@ -257,13 +438,13 @@
             "private_dns_hostname_type_on_launch": "ip-name",
             "tags": {
               "Name": "dev-private-eu-west-1a",
-              "kubernetes.io/cluster/dev-demo": "owned",
-              "kubernetes.io/role/iternal-elb": "1"
+              "kubernetes.io/cluster/eks-demo": "shared",
+              "kubernetes.io/role/internal-elb": "1"
             },
             "tags_all": {
               "Name": "dev-private-eu-west-1a",
-              "kubernetes.io/cluster/dev-demo": "owned",
-              "kubernetes.io/role/iternal-elb": "1"
+              "kubernetes.io/cluster/eks-demo": "shared",
+              "kubernetes.io/role/internal-elb": "1"
             },
             "timeouts": null,
             "vpc_id": "vpc-0fdc0f75a9afc7d7a"
@@ -278,16 +459,16 @@
           "index_key": 1,
           "schema_version": 1,
           "attributes": {
-            "arn": "arn:aws:ec2:eu-west-1:189011478638:subnet/subnet-0de609e2a66fedd66",
+            "arn": "arn:aws:ec2:eu-west-1:189011478638:subnet/subnet-01c180ddeb7af535d",
             "assign_ipv6_address_on_creation": false,
             "availability_zone": "eu-west-1b",
             "availability_zone_id": "euw1-az2",
-            "cidr_block": "10.0.6.0/24",
+            "cidr_block": "10.0.11.0/24",
             "customer_owned_ipv4_pool": "",
             "enable_dns64": false,
             "enable_resource_name_dns_a_record_on_launch": false,
             "enable_resource_name_dns_aaaa_record_on_launch": false,
-            "id": "subnet-0de609e2a66fedd66",
+            "id": "subnet-01c180ddeb7af535d",
             "ipv6_cidr_block": "",
             "ipv6_cidr_block_association_id": "",
             "ipv6_native": false,
@@ -298,13 +479,13 @@
             "private_dns_hostname_type_on_launch": "ip-name",
             "tags": {
               "Name": "dev-private-eu-west-1b",
-              "kubernetes.io/cluster/dev-demo": "owned",
-              "kubernetes.io/role/iternal-elb": "1"
+              "kubernetes.io/cluster/eks-demo": "shared",
+              "kubernetes.io/role/internal-elb": "1"
             },
             "tags_all": {
               "Name": "dev-private-eu-west-1b",
-              "kubernetes.io/cluster/dev-demo": "owned",
-              "kubernetes.io/role/iternal-elb": "1"
+              "kubernetes.io/cluster/eks-demo": "shared",
+              "kubernetes.io/role/internal-elb": "1"
             },
             "timeouts": null,
             "vpc_id": "vpc-0fdc0f75a9afc7d7a"
@@ -328,16 +509,16 @@
           "index_key": 0,
           "schema_version": 1,
           "attributes": {
-            "arn": "arn:aws:ec2:eu-west-1:189011478638:subnet/subnet-06f7b09c497de52da",
+            "arn": "arn:aws:ec2:eu-west-1:189011478638:subnet/subnet-0479866683dd74c9f",
             "assign_ipv6_address_on_creation": false,
             "availability_zone": "eu-west-1a",
             "availability_zone_id": "euw1-az1",
-            "cidr_block": "10.0.1.0/24",
+            "cidr_block": "10.0.0.0/24",
             "customer_owned_ipv4_pool": "",
             "enable_dns64": false,
             "enable_resource_name_dns_a_record_on_launch": false,
             "enable_resource_name_dns_aaaa_record_on_launch": false,
-            "id": "subnet-06f7b09c497de52da",
+            "id": "subnet-0479866683dd74c9f",
             "ipv6_cidr_block": "",
             "ipv6_cidr_block_association_id": "",
             "ipv6_native": false,
@@ -348,12 +529,12 @@
             "private_dns_hostname_type_on_launch": "ip-name",
             "tags": {
               "Name": "dev-public-eu-west-1a",
-              "kubernetes.io/cluster/dev-demo": "owned",
+              "kubernetes.io/cluster/eks-demo": "shared",
               "kubernetes.io/role/elb": "1"
             },
             "tags_all": {
               "Name": "dev-public-eu-west-1a",
-              "kubernetes.io/cluster/dev-demo": "owned",
+              "kubernetes.io/cluster/eks-demo": "shared",
               "kubernetes.io/role/elb": "1"
             },
             "timeouts": null,
@@ -369,16 +550,16 @@
           "index_key": 1,
           "schema_version": 1,
           "attributes": {
-            "arn": "arn:aws:ec2:eu-west-1:189011478638:subnet/subnet-084f5bb5c5eef9caa",
+            "arn": "arn:aws:ec2:eu-west-1:189011478638:subnet/subnet-073f034a3b248a52c",
             "assign_ipv6_address_on_creation": false,
             "availability_zone": "eu-west-1b",
             "availability_zone_id": "euw1-az2",
-            "cidr_block": "10.0.2.0/24",
+            "cidr_block": "10.0.1.0/24",
             "customer_owned_ipv4_pool": "",
             "enable_dns64": false,
             "enable_resource_name_dns_a_record_on_launch": false,
             "enable_resource_name_dns_aaaa_record_on_launch": false,
-            "id": "subnet-084f5bb5c5eef9caa",
+            "id": "subnet-073f034a3b248a52c",
             "ipv6_cidr_block": "",
             "ipv6_cidr_block_association_id": "",
             "ipv6_native": false,
@@ -389,12 +570,12 @@
             "private_dns_hostname_type_on_launch": "ip-name",
             "tags": {
               "Name": "dev-public-eu-west-1b",
-              "kubernetes.io/cluster/dev-demo": "owned",
+              "kubernetes.io/cluster/eks-demo": "shared",
               "kubernetes.io/role/elb": "1"
             },
             "tags_all": {
               "Name": "dev-public-eu-west-1b",
-              "kubernetes.io/cluster/dev-demo": "owned",
+              "kubernetes.io/cluster/eks-demo": "shared",
               "kubernetes.io/role/elb": "1"
             },
             "timeouts": null,

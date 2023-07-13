@@ -41,29 +41,29 @@ module "network" {
   }
 }
 
-# module "eks" {
-#   source = "../modules/eks"
+module "eks" {
+  source = "../modules/eks"
 
-#   env         = local.env
-#   eks_version = "1.26"
-#   eks_name    = "local.cluster_name"
-#   subnet_ids  = module.network.private_subnet_ids
-#   vpc_id      = module.network.vpc_id
+  env         = local.env
+  eks_version = "1.26"
+  eks_name    = "${local.cluster_name}"
+  subnet_ids  = module.network.private_subnet_ids
+  vpc_id      = module.network.vpc_id
 
-#   node_groups = {
-#     general = {
-#       capacity_type  = "ON_DEMAND"
-#       instance_types = ["t2.micro"]
-#       scaling_config = {
-#         desired_size = 1
-#         min_size     = 0
-#         max_size     = 1
-#       }
-#     }
-#   }
-#   ssh_key_pair = "~/.ssh/terraform_ssh_key.pub"
-#   depends_on   = [module.network]
-# }
+  node_groups = {
+    general = {
+      capacity_type  = "ON_DEMAND"
+      instance_types = ["t2.micro"]
+      scaling_config = {
+        desired_size = 1
+        min_size     = 0
+        max_size     = 1
+      }
+    }
+  }
+  ssh_key_pair = "~/.ssh/terraform_ssh_key.pub"
+  depends_on   = [module.network]
+}
 
 # resource "null_resource" "bashctl" {
 #   depends_on = [module.eks]
