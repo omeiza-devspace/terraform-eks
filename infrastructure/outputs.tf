@@ -14,5 +14,7 @@ output "cluster_name" {
   value = module.eks.eks_name
 }
 
-
+output "cluster_endpoint" {
+  value = module.eks.eks_endpoint
+}
 

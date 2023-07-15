@@ -19,8 +19,7 @@ then
    exit 1
 else
    echo  "nginx is ready for setup"
-   echo  "nginx-ingress and rule is ready for setup"
-   kubectl apply -f "./nginx/deployment.yml"  
-   kubectl get pods -n -o wide 
-
+   kubectl apply -f "./k8s/deployment.yml"  
+   kubectl apply -f "./k8s/service.yml"  
+   kubectl get pods -o wide 
 fi

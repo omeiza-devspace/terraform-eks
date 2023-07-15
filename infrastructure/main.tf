@@ -50,7 +50,7 @@ module "eks" {
   ssh_key_pair = var.ssh_key_pair
 
   node_groups = {
-    general = {
+    "${var.env}-${var.cluster_name}-eks-workers" = {
       capacity_type  = "ON_DEMAND"
       instance_types = var.instance_types
 
@@ -98,10 +98,12 @@ resource "aws_iam_role_policy_attachment" "additional" {
 
 # setup ingrss alb using helm
 resource "helm_release" "ingress" {
-  name       = "ingress"
+  depends_on = [module.eks]
+
+  name       = "aws-alb-controller"
   chart      = "aws-load-balancer-controller"
   repository = "https://aws.github.io/eks-charts"
-  version    = "1.4.6"
+  version    = "1.4.3"
 
   set {
     name  = "autoDiscoverAwsRegion"
