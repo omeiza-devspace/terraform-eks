@@ -1,7 +1,7 @@
 {
   "version": 4,
   "terraform_version": "1.5.1",
-  "serial": 44,
+  "serial": 49,
   "lineage": "e070db70-bd85-3dd3-8271-a7e1fb9fa1bb",
   "outputs": {
     "cluster_name": {
@@ -116,10 +116,9 @@
       "provider": "provider[\"registry.terraform.io/hashicorp/null\"]",
       "instances": [
         {
-          "status": "tainted",
           "schema_version": 0,
           "attributes": {
-            "id": "6809175315591645190",
+            "id": "4401409578181599963",
             "triggers": null
           },
           "sensitive_attributes": [],
@@ -351,9 +350,9 @@
             ],
             "scaling_config": [
               {
-                "desired_size": 1,
-                "max_size": 1,
-                "min_size": 0
+                "desired_size": 2,
+                "max_size": 2,
+                "min_size": 1
               }
             ],
             "status": "ACTIVE",

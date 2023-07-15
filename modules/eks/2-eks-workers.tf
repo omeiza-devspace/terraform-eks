@@ -3,7 +3,7 @@ resource "aws_iam_role" "workers" {
 
   assume_role_policy = jsonencode({
     Statement = [{
-      Action = "Sts:AssumeRole"
+      Action = "sts:AssumeRole"
       Effect = "Allow"
       Principal = {
         Service = "ec2.amazonaws.com"

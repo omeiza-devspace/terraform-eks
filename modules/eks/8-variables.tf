@@ -49,6 +49,10 @@ variable "enable_irsa" {
   default     = true
 }
 
-variable "sec_group_id" {
-  description = "Security group firewall for access to the worker nodes"
+variable "vpc_id" {
+  description = "VPC the resource is attached to"
+}
+
+variable "webhook_port" {
+    description = "Load Balancer webhook controller port"
 }

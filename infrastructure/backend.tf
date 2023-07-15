@@ -10,7 +10,7 @@ terraform {
 terraform {
   # store the terraform state file in client PC
   backend "local" {
-    path = "./dev/terraform.tstate"
+    path = "./dev_backend/terraform.tstate"
   }
 
   #############################################################

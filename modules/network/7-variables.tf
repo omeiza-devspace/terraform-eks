@@ -1,16 +1,14 @@
 ###########################
 # VPC
 ###########################
-variable "vpc_cidr_block" {
+variable "vpc_cidr" {
   type        = string
   description = "vpc ip range"
-  default     = "10.0.0.0/16"
 }
 
 variable "env" {
   type        = string
   description = "environment name"
-  default     = "dev"
 }
 
 variable "support_vpc_dns" {
@@ -38,16 +36,14 @@ variable "azs" {
 # Subnets
 ###########################
 
-variable "private_subnets" {
+variable "private_subnet_cidrs" {
   description = "CIDR range for private subnets"
   type        = list(string)
-  default     = ["10.0.1.0/24", "10.0.2.0/24"]
 }
 
-variable "public_subnets" {
+variable "public_subnet_cidrs" {
   description = "CIDR range for public subnets"
   type        = list(string)
-  default     = ["10.0.5.0/24", "10.0.6.0/24"]
 }
 
 variable "private_subnet_tags" {

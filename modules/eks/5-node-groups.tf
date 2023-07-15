@@ -17,7 +17,7 @@ resource "aws_eks_node_group" "this" {
 
   remote_access {
     ec2_ssh_key               = aws_key_pair.this.id
-    source_security_group_ids = [var.sec_group_id]
+    source_security_group_ids =  [aws_security_group.worker_sg.id]
   }
 
   update_config {
