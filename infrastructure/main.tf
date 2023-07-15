@@ -75,46 +75,18 @@ resource "null_resource" "bashctl" {
 
   provisioner "local-exec" {
     # deploy nginx-app to eks-cluster
-    command     = "chmod u+x ./scripts/* && ./scripts/install-nginx.sh"
+    command     = "chmod u+x ./scripts/* && ./scripts/nginx-dns-setup.sh"
     interpreter = ["/bin/bash", "-c"]
   }
 }
 
-# create worker nodes alb-iam-policy
-resource "aws_iam_policy" "worker_policy" {
-  name        = "worker-policy"
-  description = "Worker policy for the ALB Ingress"
+resource "aws_route53_zone" "this" {
 
-  policy = file("./aws_policies/iam-policy.json")
-}
-
-# attach worker nodes alb-iam-policy
-resource "aws_iam_role_policy_attachment" "additional" {
-  for_each = module.eks.eks_managed_node_groups
-
-  policy_arn = aws_iam_policy.worker_policy.arn
-  role       = each.value.node_group_name
-}
-
-# setup ingrss alb using helm
-resource "helm_release" "ingress" {
   depends_on = [module.eks]
 
-  name       = "aws-alb-controller"
-  chart      = "aws-load-balancer-controller"
-  repository = "https://aws.github.io/eks-charts"
-  version    = "1.4.3"
+  name = "mydevcloud.local"
 
-  set {
-    name  = "autoDiscoverAwsRegion"
-    value = "true"
-  }
-  set {
-    name  = "autoDiscoverAwsVpcID"
-    value = "true"
-  }
-  set {
-    name  = "clusterName"
-    value = var.cluster_name
+  vpc {
+    vpc_id = module.network.vpc_id
   }
 }

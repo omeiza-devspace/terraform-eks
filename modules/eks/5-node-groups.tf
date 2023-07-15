@@ -2,7 +2,7 @@ resource "aws_eks_node_group" "this" {
   for_each        = var.node_groups
   cluster_name    = aws_eks_cluster.this.name
   node_group_name = each.key
-  node_role_arn   = aws_iam_role.workers.arn
+  node_role_arn   = aws_iam_role.workerGroup.arn
 
   subnet_ids = var.subnet_ids
 
@@ -28,5 +28,8 @@ resource "aws_eks_node_group" "this" {
     role = each.key
   }
 
-  depends_on = [aws_iam_role_policy_attachment.workers]
+  depends_on = [
+    aws_eks_cluster.this
+  ]
+
 }

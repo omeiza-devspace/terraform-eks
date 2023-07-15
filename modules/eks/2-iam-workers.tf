@@ -1,5 +1,5 @@
-resource "aws_iam_role" "workers" {
-  name = "${var.env}-${var.eks_name}-eks-workers"
+resource "aws_iam_role" "workerGroup" {
+  name = "${var.env}-eks-workers"
 
   assume_role_policy = jsonencode({
     Statement = [{
@@ -13,11 +13,15 @@ resource "aws_iam_role" "workers" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "workers" {
-  for_each = var.node_iam_policies
+resource "aws_iam_role_policy_attachment" "worker_policies" {
+  for_each = var.worker_node_iam_policies
 
   policy_arn = each.value
-  role       = aws_iam_role.workers.name
+  role       = aws_iam_role.workerGroup.name
 }
+ 
+
+ 
+
 
  

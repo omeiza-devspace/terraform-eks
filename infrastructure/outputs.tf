@@ -18,3 +18,7 @@ output "cluster_endpoint" {
   value = module.eks.eks_endpoint
 }
 
+output "private_url" {
+  value = aws_route53_zone.this.arn
+}
+

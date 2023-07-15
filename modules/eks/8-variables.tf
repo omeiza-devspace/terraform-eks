@@ -1,19 +1,16 @@
 variable "env" {
   type        = string
   description = "environment name"
-  default     = "dev"
 }
 
 variable "eks_version" {
   type        = string
   description = "Desired  kubernetes version"
-  default     = "dev"
 }
 
 variable "eks_name" {
   type        = string
   description = "name assigned ti the cluster"
-  default     = "dev"
 }
 
 variable "subnet_ids" {
@@ -21,7 +18,7 @@ variable "subnet_ids" {
   description = "list of subnet IDs in atleast two different AZs"
 }
 
-variable "node_iam_policies" {
+variable "worker_node_iam_policies" {
   type        = map(any)
   description = "IAM policies attached to the managed nodes"
   default = {
@@ -29,6 +26,8 @@ variable "node_iam_policies" {
     2 = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
     3 = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
     4 = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+    5 = "arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess"
+    6 = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
   }
 }
 
