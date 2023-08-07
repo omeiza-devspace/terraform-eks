@@ -29,13 +29,7 @@ else
 
    kubectl get namespaces | grep -q $NGINX_NS || kubectl create namespace ${NGINX_NS:-"default"}
 
-   kubectl create -f "$FILE_DIR/deployment.yml" -n ${NGINX_NS:-"default"}
-   
-   kubectl create -f "$FILE_DIR/service.yml" -n ${NGINX_NS:-"default"}
-
-   kubectl create -f "$FILE_DIR/externaldns-no-rbac.yml" -n ${NGINX_NS:-"default"}
-
-   kubectl create -f "$FILE_DIR/ingress.yml" -n ${NGINX_NS:-"default"}
+   kubectl create -f "$FILE_DIR/" -n ${NGINX_NS:-"default"}
 
    ############## Test result on installations ##############
 
